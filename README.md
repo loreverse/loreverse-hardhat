@@ -1,1 +1,1 @@
-# hardhat new project template
+# loreverse-hardhat
