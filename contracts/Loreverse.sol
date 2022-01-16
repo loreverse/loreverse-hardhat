@@ -13,8 +13,8 @@ contract Loreverse is ERC721Enumerable, Ownable {
 
 	uint256 public nextTokenId = 1;
 	mapping(uint256 => string) metadatas; // tokenId -> metadata(Base64Encoded)
-	mapping(uint256 => string) titles; // tokenId -> title(Base64Encoded)
-	mapping(uint256 => string) bodies; // tokenId -> body(Base64Encoded)
+	mapping(uint256 => string) titles; // tokenId -> title
+	mapping(uint256 => string) bodies; // tokenId -> body
 	mapping(uint256 => uint256) forkCounts; // tokenId -> forkCount
 	mapping(uint256 => uint256) tokenIdOfTheForkSourceLore; // tokenId -> originalTokenId
 
@@ -44,8 +44,6 @@ contract Loreverse is ERC721Enumerable, Ownable {
 		if (originalTokenId > 0) {
 			forkCounts[originalTokenId] += 1;
 			tokenIdOfTheForkSourceLore[_tokenId] = originalTokenId;
-			// console.log(forkCounts[_tokenId]);
-			// console.log(tokenIdOfTheForkSourceLore[_tokenId]);
 		}
 
 		_safeMint(_msgSender(), _tokenId);
