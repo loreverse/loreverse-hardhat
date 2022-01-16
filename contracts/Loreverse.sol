@@ -13,6 +13,10 @@ contract Loreverse is ERC721Enumerable, Ownable {
 
 	uint256 public nextTokenId = 1;
 	mapping(uint256 => string) metadatas; // tokenId -> metadata(Base64Encoded)
+	mapping(uint256 => string) titles; // tokenId -> title(Base64Encoded)
+	mapping(uint256 => string) bodies; // tokenId -> body(Base64Encoded)
+	mapping(uint256 => uint256) forkCounts; // tokenId -> forkCount
+	mapping(uint256 => uint256) tokenIdOfTheForkSourceLore; // tokenId -> originalTokenId
 
 	constructor() ERC721("Loreverse", "LORE") {}
 
@@ -34,31 +38,36 @@ contract Loreverse is ERC721Enumerable, Ownable {
 		uint256 _tokenId = nextTokenId;
 		nextTokenId++;
 		metadatas[_tokenId] = metadata;
-		// TODO:
+		titles[_tokenId] = title;
+		bodies[_tokenId] = body;
+
+		if (originalTokenId > 0) {
+			forkCounts[originalTokenId] += 1;
+			tokenIdOfTheForkSourceLore[_tokenId] = originalTokenId;
+			// console.log(forkCounts[_tokenId]);
+			// console.log(tokenIdOfTheForkSourceLore[_tokenId]);
+		}
+
 		_safeMint(_msgSender(), _tokenId);
 	}
 
 	function getForkCount(uint256 tokenId) public view returns (uint256) {
 		require(_exists(tokenId), "nonexistent token");
-		// TODO:
-		return 0;
+		return forkCounts[tokenId];
 	}
 
 	function getTitle(uint256 tokenId) public view returns (string memory) {
 		require(_exists(tokenId), "nonexistent token");
-		// TODO:
-		return "";
+		return titles[tokenId];
 	}
 
 	function getBody(uint256 tokenId) public view returns (string memory) {
 		require(_exists(tokenId), "nonexistent token");
-		// TODO:
-		return "";
+		return bodies[tokenId];
 	}
 
 	function getOriginalTokenId(uint256 tokenId) public view returns (uint256) {
 		require(_exists(tokenId), "nonexistent token");
-		// TODO:
-		return 0;
+		return tokenIdOfTheForkSourceLore[tokenId];
 	}
 }
