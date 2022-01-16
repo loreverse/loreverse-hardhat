@@ -1,0 +1,1 @@
+# hardhat new project template
