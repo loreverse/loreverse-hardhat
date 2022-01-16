@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-	const factory = await ethers.getContractFactory("MyNft");
+	const factory = await ethers.getContractFactory("Loreverse");
 	const contract = await factory.deploy();
 	await contract.deployed();
 	console.log("Deployed to:", contract.address);
